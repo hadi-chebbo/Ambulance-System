@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'phone', 'password', 'role', 'photo', 'is_active', 'blood_type', 'join_year', 'birthdate'])]
+
 #[Hidden(['password', 'remember_token'])]
+
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -28,5 +31,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function shiftSchedule()
+    {
+        return $this->hasMany(ShiftSchedule::class);
+    }
+
+    public function supervisedShifts()
+    {
+        return $this->hasMany(Shift::class, 'shift_supervisor_id');
     }
 }
