@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ambulances', function (Blueprint $table) {
+        Schema::create('hospitals', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('plate_number')->unique()->nullable();
-            $table->string('photo');
-            $table->boolean('is_active');
-            $table->date('last_checked_at');
-            $table->text('note');
+            $table->string('name');
+            $table->string('address');
+            $table->string('phone');
+            $table->boolean('is_available')->default(true);
+            $table->text('note')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ambulances');
+        Schema::dropIfExists('hospitals');
     }
 };

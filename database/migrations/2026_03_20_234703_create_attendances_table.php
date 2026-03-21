@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shift_schedules', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('day');
-            $table->enum('type', ['day', 'night']);
+            $table->foreignId('shift_id')->constrained()->cascadeOnDelete();
+            $table->enum('status', ['present', 'absent', 'late', 'excused']);
+            $table->text('note')->nullable();
+            $table->foreignId('marked_by')->constrained('users')->cascadeOnDelete();
+            $table->datetime('marked_at');
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shift_schedules');
+        Schema::dropIfExists('attendances');
     }
 };

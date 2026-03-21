@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->enum('type',['day', 'night']);
-            $table->foreignId('shift_supervisor_id')->constrained('users');
-            $table->string('notes');
+            $table->foreignId('supervisor_id')->constrained('users');
+            $table->text('note');
             $table->timestamps();
         });
     }

@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\ShiftSchedule;
+use App\Models\Shift;
+
 
 #[Fillable(['name', 'phone', 'password', 'role', 'photo', 'is_active', 'blood_type', 'join_year', 'birthdate'])]
 
@@ -33,13 +36,32 @@ class User extends Authenticatable
         ];
     }
 
-    public function shiftSchedule()
+    public function shiftSchedules()
     {
         return $this->hasMany(ShiftSchedule::class);
     }
 
     public function supervisedShifts()
     {
-        return $this->hasMany(Shift::class, 'shift_supervisor_id');
+        return $this->hasMany(Shift::class, 'supervisor_id');
     }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function missions()
+    {
+        return $this->hasMany(Mission::class, 'mission_users')
+                ->withPivot('role')
+                ->withTimestamps();
+    }
+
+    
 }
