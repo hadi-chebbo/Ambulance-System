@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'EMT', 'EMT-assistant', 'driver']);
             $table->string('photo')->nullable();
-            $table->boolean('is_active')->default('true');
+            $table->boolean('is_active')->default(true);
             $table->string('blood_type');
-            $table->date('join_year');
+            $table->year('join_year');
             $table->date('birthdate');
             $table->rememberToken();
             $table->timestamps();

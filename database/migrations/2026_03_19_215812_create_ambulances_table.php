@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('plate_number')->unique()->nullable();
-            $table->string('photo');
-            $table->boolean('is_active');
-            $table->date('last_checked_at');
-            $table->text('note');
+            $table->string('photo')->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->date('last_checked');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

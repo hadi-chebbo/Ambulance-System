@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\User;
 use App\Models\Shift;
 
-#[Fillable(['status', 'note', 'marked_at'])]
+#[Fillable(['user_id', 'status', 'notes', 'marked_at'])]
 
 class Attendance extends Model
 {

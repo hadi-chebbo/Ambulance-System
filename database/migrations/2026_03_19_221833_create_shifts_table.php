@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('date');
             $table->enum('type',['day', 'night']);
             $table->foreignId('supervisor_id')->constrained('users');
-            $table->text('note');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

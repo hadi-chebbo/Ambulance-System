@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,10 +13,12 @@ use App\Models\User;
 use App\Models\Ambulance;
 use App\Models\MissionPhoto;
 
-#[Fillable(['type', 'status', 'patient_name', 'patient_age', 'patient_weight', 'patient_phone', 'patient_notes', 'started_at', 'ended_at', 'notes'])]
+#[Fillable(['shift_id', 'ambulance_id', 'hospital_id', 'recorded_by', 'type', 'status', 'patient_name', 'patient_age', 'patient_weight', 'patient_phone', 'patient_notes', 'started_at', 'ended_at', 'notes'])]
 
 class Mission extends Model
 {
+    use HasFactory;
+
     protected $casts = [
         'started_at' => 'datetime',
         'ended_at' => 'datetime'

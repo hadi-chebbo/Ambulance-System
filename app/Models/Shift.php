@@ -2,24 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Attendance;
+use App\Models\User;
 use App\Models\Mission;
 use App\Models\EquipmentCheck;
+use App\Models\ShiftUser;
 
 #[Fillable(['date', 'type', 'notes'])]
 
 class Shift extends Model
 {
+    use HasFactory;
+
     protected $casts = [
-        'date' => 'date'
+        'date' => 'date',
     ];
 
     public function shiftSupervisor()
     {
-        return $this->belongsTo(User::class , 'supervisor_id');
+        return $this->belongsTo(User::class, 'supervisor_id');
     }
 
     public function attendances()
@@ -35,5 +38,10 @@ class Shift extends Model
     public function equipmentChecks()
     {
         return $this->hasMany(EquipmentCheck::class);
+    }
+
+    public function shiftUsers()
+    {
+        return $this->hasMany(ShiftUser::class);
     }
 }

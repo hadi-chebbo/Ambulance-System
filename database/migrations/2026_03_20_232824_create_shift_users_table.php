@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('shift_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->boolean('is_switch')->default('false');
+            $table->boolean('is_switch')->default(false);
             $table->string('switch_reason')->nullable();
             $table->timestamps();
         });

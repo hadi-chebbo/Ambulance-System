@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->boolean('is_available')->default(true);
-            $table->text('note')->nullable();
+            $table->text('notes')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

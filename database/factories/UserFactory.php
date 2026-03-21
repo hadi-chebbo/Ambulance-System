@@ -26,11 +26,35 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'phone' => fake()->unique()->numerify('03#######'),
+            'role' => fake()->randomElement(['EMT', 'EMT-assistant', 'driver']),
             'password' => static::$password ??= Hash::make('password'),
+            'photo' => null,
+            'blood_type' => fake()->randomElement(['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-']),
+            'join_year' => fake()->year(),
+            'birthdate' => fake()->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function admin(): static
+    {
+        return $this->state(['role' => 'admin']);
+    }
+
+    public function emt(): static
+    {
+        return $this->state(['role' => 'EMT']);
+    }
+    
+    public function emtAssistant(): static
+    {
+        return $this->state(['role' => 'EMT-assistant']);
+    }
+
+    public function driver(): static
+    {
+        return $this->state(['role' => 'driver']);
     }
 
     /**

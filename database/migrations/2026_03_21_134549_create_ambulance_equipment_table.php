@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('ambulance_id')->constrained()->cascadeOnDelete();
             $table->foreignId('equipment_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity');
-            $table->boolean('is_active')->default('true');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

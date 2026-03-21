@@ -8,7 +8,7 @@ use App\Models\Ambulance;
 use App\Models\Equipment;
 
 
-#[Fillable(['quantity', 'is_active'])]
+#[Fillable(['equipment_id', 'quantity', 'is_active'])]
 
 class AmbulanceEquipment extends Model
 {

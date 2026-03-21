@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Shift;
 use App\Models\User;
 
-#[Fillable(['is_switch', 'switch_user'])]
+#[Fillable(['user_id', 'is_switch', 'switch_user'])]
 
 class ShiftUser extends Model
 {

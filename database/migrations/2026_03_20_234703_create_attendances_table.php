@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('shift_id')->constrained()->cascadeOnDelete();
             $table->enum('status', ['present', 'absent', 'late', 'excused']);
-            $table->text('note')->nullable();
+            $table->text('notes')->nullable();
             $table->foreignId('marked_by')->constrained('users')->cascadeOnDelete();
             $table->datetime('marked_at');
             $table->timestamps();
