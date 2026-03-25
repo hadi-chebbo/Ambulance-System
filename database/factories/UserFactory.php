@@ -37,6 +37,10 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+    public function superAdmin(): static
+    {
+        return $this->state(['role' => 'super_admin']);
+    }
 
     public function admin(): static
     {

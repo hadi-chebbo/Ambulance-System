@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ambulances', function (Blueprint $table) {
+        Schema::create('centers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('center_id')->constrained()->cascadeOnDelete();
             $table->string('name')->unique();
-            $table->string('plate_number')->unique()->nullable();
-            $table->string('photo')->nullable();
+            $table->string('address');
+            $table->string('phone');
+            $table->string('email')->unique();
             $table->boolean('is_active')->default(true);
-            $table->date('last_checked');
-            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ambulances');
+        Schema::dropIfExists('centers');
     }
 };
