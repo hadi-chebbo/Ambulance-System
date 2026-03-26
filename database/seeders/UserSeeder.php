@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->admin()->create([
+        User::factory()->superAdmin()->create([
             'name' => 'Super Admin',
             'email' => 'superadmin@erc.com',
             'password' => Hash::make('superadmin123')

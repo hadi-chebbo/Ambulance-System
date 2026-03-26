@@ -17,8 +17,13 @@ class CenterFactory extends Factory
      */
     public function definition(): array
     {
+        $address = fake()->randomElement(['Barja', 'Tripoly', 'Bekaa', 'Saida']);
         return [
-            //
+            'name' => 'ERC' . $address,
+            'address' => $address,
+            'phone' => fake()->numerify('01######'),
+            'email' => fake()->unique()->safeEmail(),
+            'is_active' => true
         ];
     }
 }
