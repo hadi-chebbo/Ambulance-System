@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\ShiftSchedule;
 use App\Models\Shift;
+use App\Models\Center;
 
 
 #[Fillable(['email', 'name', 'phone', 'password', 'role', 'photo', 'is_active', 'blood_type', 'join_year', 'birthdate'])]
@@ -62,6 +63,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Mission::class, 'mission_users')
                 ->withPivot('role')
                 ->withTimestamps();
+    }
+
+    public function center()
+    {
+        return $this->belongsTo(Center::class);
     }
 
     public function getJWTIdentifier()

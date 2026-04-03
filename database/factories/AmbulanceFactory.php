@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Ambulance;
+use App\Models\Center;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,8 @@ class AmbulanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'         => 'Ambulance ' . fake()->unique()->numberBetween(100, 105),
+            'center_id' => Center::inRandomOrder()->first()?->id,
+            'name'         => 'Ambulance ' . fake()->unique()->numberBetween(100, 120),
             'plate_number' => fake()->unique()->bothify('??-##-??'),
             'photo'        => null,
             'is_active'    => true,
