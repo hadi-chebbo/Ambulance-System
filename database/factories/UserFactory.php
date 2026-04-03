@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Center;
 
 /**
  * @extends Factory<User>
@@ -25,6 +26,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'center_id' => Center::inRandomOrder()->first()?->id,
             'name' => fake()->name(),
             'email'     => fake()->unique()->safeEmail(),
             'phone' => fake()->unique()->numerify('03#######'),
@@ -39,12 +41,20 @@ class UserFactory extends Factory
     }
     public function superAdmin(): static
     {
-        return $this->state(['role' => 'super_admin']);
+        return $this->state([
+            'role' => 'super_admin',
+            'center_id' => null,
+            ]);
     }
 
     public function admin(): static
     {
-        return $this->state(['role' => 'admin']);
+        return $this->state([
+            'role' => 'admin',
+
+            //set center_id to null because center seeder creates one dedicated admin for each center created
+            'center_id' => null,
+            ]);
     }
 
     public function emt(): static

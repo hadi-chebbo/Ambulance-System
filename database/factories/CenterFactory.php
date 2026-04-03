@@ -19,7 +19,7 @@ class CenterFactory extends Factory
     {
         $address = fake()->randomElement(['Barja', 'Tripoly', 'Bekaa', 'Saida']);
         return [
-            'name' => 'ERC' . $address,
+            'name' => 'ERC' . $address . ' ' . fake()->unique()->numberBetween(1, 999),
             'address' => $address,
             'phone' => fake()->numerify('01######'),
             'email' => fake()->unique()->safeEmail(),
