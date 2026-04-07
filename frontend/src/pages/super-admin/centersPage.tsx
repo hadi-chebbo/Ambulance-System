@@ -1,13 +1,133 @@
 import { useEffect, useState } from "react";
+import {
+  Dashboard,
+  LocalShipping,
+  Group,
+  Assignment,
+  BarChart,
+  Settings,
+  Search,
+  NotificationsActive,
+  Add,
+  Visibility,
+  Edit,
+  CheckCircle,
+  WarningAmber,
+  Sync,
+} from "@mui/icons-material";
+
 import { getCenters } from "../../services/centerService";
 import type { Center } from "../../types/center";
+import erclogo from "../../assets/erc-logo.png";
+import ercicon from "../../assets/erc-icon.png";
 
+// ─── Sidebar ─────────────────────────────────────────────────────
+const Sidebar = () => {
+  const navItems = [
+    { label: "Dashboard", icon: <Dashboard />, active: false },
+    { label: "Centers", icon: <img src={ercicon} alt="erc-icon" className="h-8" />, active: true },
+    { label: "Ambulances", icon: <LocalShipping />, active: false },
+    { label: "Users", icon: <Group />, active: false },
+    { label: "Missions", icon: <Assignment />, active: false },
+    { label: "Reports", icon: <BarChart />, active: false },
+    { label: "Settings", icon: <Settings />, active: false },
+  ];
+
+  return (
+    <aside className="fixed left-0 top-0 h-screen w-72 bg-slate-50 border-r border-slate-200 flex flex-col">
+      <div className="p-6 flex flex-row items-center border-b border-slate-200">
+        <img
+         src={erclogo} 
+         alt="Emergency & Relief Corps"
+         className="h-20 text-[11px] text-slate-500 text-center mt-1"
+        />
+
+        <h1 className="text-xl font-black text-red-700">ERC</h1>
+
+        <p className="text-xs text-slate-500 uppercase tracking-widest">
+          Super Admin
+        </p>
+      </div>
+
+      <nav className="flex-1 mt-4">
+        {navItems.map((item) => (
+          <button
+            key={item.label}
+            className={`w-full flex items-center gap-4 px-8 py-4 transition-all ${
+              item.active
+                ? "bg-white text-red-700 border-l-4 border-red-700 font-bold"
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+            }`}
+          >
+            {item.icon}
+            <span className="text-sm">{item.label}</span>
+          </button>
+        ))}
+      </nav>
+    </aside>
+  );
+};
+
+// ─── Header ─────────────────────────────────────────────────────
+const Header = () => (
+  <header className="sticky top-0 z-40 ml-72 bg-white/80 backdrop-blur-md border-b border-slate-100 px-10 py-4 flex items-center justify-between">
+    <div className="relative w-96">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fontSize="small" />
+      <input
+        type="text"
+        placeholder="Search centers..."
+        className="w-full pl-10 pr-4 py-2 bg-slate-100 rounded-full text-sm outline-none"
+      />
+    </div>
+
+    <div className="flex items-center gap-6">
+      <div className="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full">
+        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+        <span className="text-[10px] font-bold text-slate-600 uppercase tracking-wider">
+          ERC Network
+        </span>
+      </div>
+
+      <button className="text-slate-400 hover:text-red-600 transition-colors">
+        <NotificationsActive />
+      </button>
+    </div>
+  </header>
+);
+
+// ─── Stat Card ──────────────────────────────────────────────────
+const StatCard = ({
+  icon,
+  value,
+  label,
+  colorClass,
+}: {
+  icon: React.ReactNode;
+  value: number | string;
+  label: string;
+  colorClass: string;
+}) => (
+  <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5 flex-1">
+    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${colorClass}`}>
+      {icon}
+    </div>
+    <div>
+      <span className="text-3xl font-black text-slate-900">{value}</span>
+      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
+        {label}
+      </p>
+    </div>
+  </div>
+);
+
+// ─── Main Page ──────────────────────────────────────────────────
 export default function CentersPage() {
   const [centers, setCenters] = useState<Center[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [lastPage, setLastPage] = useState<number>(1);
-  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
   const fetchCenters = async (page: number) => {
     try {
@@ -19,9 +139,8 @@ export default function CentersPage() {
       setCenters(response.data);
       setCurrentPage(response.meta.current_page);
       setLastPage(response.meta.last_page);
-    } catch (err : any) {
-      const message : string = err?.response?.data?.message || "Failed to fetch centers";
-      setError(message);
+    } catch (err: any) {
+      setError(err?.response?.data?.message || "Failed to fetch centers");
       setCenters([]);
     } finally {
       setLoading(false);
@@ -32,175 +151,165 @@ export default function CentersPage() {
     fetchCenters(currentPage);
   }, [currentPage]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-6 py-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-            <div className="flex items-center justify-center py-16">
-              <div className="text-center">
-                <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-red-600"></div>
-                <p className="text-sm font-medium text-gray-600">
-                  Loading centers...
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-6 py-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="rounded-2xl border border-red-200 bg-red-50 p-6 shadow-sm">
-            <h2 className="mb-2 text-lg font-semibold text-red-700">Error</h2>
-            <p className="text-sm text-red-600">{error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (centers.length === 0) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-6 py-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="rounded-2xl border border-gray-200 bg-white p-10 text-center shadow-sm">
-            <h2 className="mb-2 text-xl font-semibold text-gray-800">
-              No Centers Found
-            </h2>
-            <p className="text-sm text-gray-500">
-              There are no centers to display at the moment.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const totalCenters = centers.length;
+  const activeCenters = centers.filter((c) => c.is_active).length;
+  const inactiveCenters = centers.filter((c) => !c.is_active).length;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-6 py-10">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-6 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+    <div className="min-h-screen bg-slate-50">
+      <Sidebar />
+      <Header />
+
+      <main className="ml-72 p-10 max-w-400 mx-auto">
+        {/* ─── Page Header ─── */}
+        <div className="mb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          ERC / Super Admin / Centers
+        </div>
+
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Centers
-            </h1>
-            <p className="mt-1 text-sm text-gray-500">
-              View and manage all centers in one place.
+            <h2 className="text-5xl font-black text-slate-900">
+              Centers Overview
+            </h2>
+            <p className="text-slate-500">
+              Manage and monitor all ERC centers.
             </p>
           </div>
 
-          <button className="inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700">
-            + Add Center
+          <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2">
+            <Add />
+            Add Center
           </button>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-          <div className="border-b border-gray-100 px-6 py-4">
-            <h2 className="text-lg font-semibold text-gray-800">
-              Centers List
-            </h2>
-            <p className="text-sm text-gray-500">
-              Total centers on this page: {centers.length}
+        {/* ─── Stats ─── */}
+        <div className="flex gap-6 mb-8">
+          <StatCard
+            icon={<img src={ercicon} alt="erc-icon" className="h-15"></img>}
+            value={totalCenters}
+            label="Total Centers"
+            colorClass="bg-red-50"
+          />
+          <StatCard
+            icon={<CheckCircle className="text-emerald-500" />}
+            value={activeCenters}
+            label="Active"
+            colorClass="bg-emerald-50"
+          />
+          <StatCard
+            icon={<WarningAmber className="text-amber-500" />}
+            value={inactiveCenters}
+            label="Inactive"
+            colorClass="bg-amber-50"
+          />
+          <StatCard
+            icon={<Sync className="text-sky-500" />}
+            value="Now"
+            label="Last Sync"
+            colorClass="bg-sky-50"
+          />
+        </div>
+
+        {/* ─── Table ─── */}
+        <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+          <div className="px-8 py-6 border-b border-slate-100">
+            <h3 className="text-lg font-bold">Centers List</h3>
+            <p className="text-sm text-slate-500">
+              All registered centers in the system.
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="min-w-full">
-              <thead className="bg-gray-50">
-                <tr className="text-left">
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Name
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Location
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Status
-                  </th>
-                  <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-gray-100">
-                {centers.map((center) => (
-                  <tr
-                    key={center.id}
-                    className="transition hover:bg-gray-50/70"
-                  >
-                    <td className="px-6 py-4">
-                      <div>
-                        <p className="font-semibold text-gray-900">
-                          {center.name}
-                        </p>
-                        <p className="text-sm text-gray-500">{center.email}</p>
-                      </div>
-                    </td>
-
-                    <td className="px-6 py-4 text-sm text-gray-700">
-                      {center.address}
-                    </td>
-
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                          center.is_active
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {center.is_active ? "Active" : "Inactive"}
-                      </span>
-                    </td>
-
-                    <td className="px-6 py-4">
-                      <div className="flex flex-wrap gap-2">
-                        <button className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100">
-                          View
-                        </button>
-                        <button className="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100">
-                          Edit
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {lastPage > 1 && (
-            <div className="flex flex-col items-center justify-between gap-4 border-t border-gray-100 px-6 py-4 sm:flex-row">
-              <button
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-                disabled={currentPage === 1}
-                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Previous
-              </button>
-
-              <p className="text-sm text-gray-500">
-                Page <span className="font-semibold">{currentPage}</span> of{" "}
-                <span className="font-semibold">{lastPage}</span>
-              </p>
-
-              <button
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-                disabled={currentPage === lastPage}
-                className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Next
-              </button>
+          {loading ? (
+            <div className="p-10 text-center text-slate-500">
+              Loading...
             </div>
+          ) : error ? (
+            <div className="p-10 text-center text-red-600">
+              {error}
+            </div>
+          ) : (
+            <>
+              <table className="w-full text-left">
+                <thead className="bg-slate-50 text-xs uppercase text-slate-400">
+                  <tr>
+                    <th className="px-8 py-4">Center</th>
+                    <th className="px-8 py-4">Email</th>
+                    <th className="px-8 py-4">Address</th>
+                    <th className="px-8 py-4">Status</th>
+                    <th className="px-8 py-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody className="divide-y divide-slate-100">
+                  {centers.map((center) => (
+                    <tr key={center.id} className="hover:bg-slate-50">
+                      <td className="px-8 py-5 font-bold">
+                        {center.name}
+                      </td>
+
+                      <td className="px-8 py-5 text-sm text-slate-600">
+                        {center.email}
+                      </td>
+
+                      <td className="px-8 py-5 text-sm text-slate-600">
+                        {center.address}
+                      </td>
+
+                      <td className="px-8 py-5">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            center.is_active
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {center.is_active ? "Active" : "Inactive"}
+                        </span>
+                      </td>
+
+                      <td className="px-8 py-5">
+                        <div className="flex justify-end gap-2">
+                          <button className="p-2 hover:bg-slate-100 rounded">
+                            <Visibility fontSize="small" />
+                          </button>
+                          <button className="p-2 hover:bg-slate-100 rounded">
+                            <Edit fontSize="small" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* ─── Pagination ─── */}
+              {lastPage > 1 && (
+                <div className="flex justify-between items-center px-8 py-4 border-t">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((p) => p - 1)}
+                    className="px-4 py-2 border rounded disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
+
+                  <span className="text-sm text-slate-500">
+                    Page {currentPage} of {lastPage}
+                  </span>
+
+                  <button
+                    disabled={currentPage === lastPage}
+                    onClick={() => setCurrentPage((p) => p + 1)}
+                    className="px-4 py-2 border rounded disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

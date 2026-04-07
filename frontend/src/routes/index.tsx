@@ -1,8 +1,9 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from '../pages/auth/LoginPage';
-import DashboardPage from '../pages/super-admin/DashboardPage';
+import DashboardPage from '../pages/DashboardPage';
 import CentersPage from '../pages/super-admin/centersPage';
+import SuperAdminPage from '../pages/super-admin/SuperAdminDashboard';
 import ForbiddenPage from '../pages/ForbiddenPage';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -24,8 +25,16 @@ const AppRoutes: React.FC = () => {
       <Route
         path = "super-admin/centers"
         element = {
-          <ProtectedRoute allowedRoles={["super-admin"]}>
+          <ProtectedRoute allowedRoles={["super_admin"]}>
             <CentersPage />
+          </ProtectedRoute>
+        }
+       />
+      <Route
+        path = "super-admin/dashboard"
+        element = {
+          <ProtectedRoute allowedRoles={["super_admin"]}>
+            <SuperAdminPage />
           </ProtectedRoute>
         }
        />
