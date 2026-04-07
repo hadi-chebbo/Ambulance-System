@@ -16,7 +16,7 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::prefix('super-admin')
-    ->middleware(['auth:api'])
+    ->middleware(['auth:api','role:super_admin'])
     ->group(function () {
         require base_path('routes/api/superAdmin/center.php');
     });

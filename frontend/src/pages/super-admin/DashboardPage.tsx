@@ -1,6 +1,6 @@
 import React from 'react';
-import DashboardLayout from '../layouts/DashboardLayout';
-import { useAuth } from '../hooks/useAuth';
+import DashboardLayout from '../../layouts/DashboardLayout';
+import { useAuth } from '../../hooks/useAuth';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();

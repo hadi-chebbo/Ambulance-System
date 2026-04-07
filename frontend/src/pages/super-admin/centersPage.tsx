@@ -19,8 +19,9 @@ export default function CentersPage() {
       setCenters(response.data);
       setCurrentPage(response.meta.current_page);
       setLastPage(response.meta.last_page);
-    } catch (err) {
-      setError("Failed to fetch centers");
+    } catch (err : any) {
+      const message : string = err?.response?.data?.message || "Failed to fetch centers";
+      setError(message);
       setCenters([]);
     } finally {
       setLoading(false);
