@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 import { useAuth } from '../hooks/useAuth';
-import SuperAdminDashboard from './super-admin/SuperAdminDashboard';
+import { Navigate } from 'react-router-dom';
 
 // Add more role-specific dashboards here as you build them:
 // import AdminDashboard from './AdminDashboard';
@@ -21,7 +21,7 @@ const DashboardPage: React.FC = () => {
   const renderDashboard = () => {
     switch (user?.role) {
       case 'super_admin':
-        return <SuperAdminDashboard />;
+        return <Navigate to = "/super-admin/dashboard" replace />;
 
       // Uncomment and add as you build each dashboard:
       // case 'admin':

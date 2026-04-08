@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../pages/auth/LoginPage";
 import DashboardPage from "../pages/DashboardPage";
-import CentersPage from "../pages/super-admin/centersPage";
+import CentersPage from "../pages/super-admin/CentersPage";
 import SuperAdminPage from "../pages/super-admin/SuperAdminDashboard";
 import ForbiddenPage from "../pages/ForbiddenPage";
 import ProtectedRoute from "./ProtectedRoute";
