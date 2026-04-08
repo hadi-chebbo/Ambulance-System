@@ -19,7 +19,7 @@ const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) 
         </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">
-            {user?.firstName} {user?.lastName}
+            {user?.name}
           </span>
           <button
             onClick={handleLogout}

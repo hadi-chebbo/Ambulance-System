@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import AuthLoader from "../components/ui/AuthLoader";
 
 interface props {
   children : React.ReactNode;
@@ -12,9 +13,7 @@ const ProtectedRoute: React.FC<props> = ({ children, allowedRoles }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <span className="text-gray-400 text-sm animate-pulse">Loading...</span>
-      </div>
+      <AuthLoader />
     );
   }
 
