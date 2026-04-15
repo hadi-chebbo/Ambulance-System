@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('center_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'EMT', 'EMT-assistant', 'driver']);
+            $table->enum('role', ['super_admin', 'admin', 'EMT', 'EMT-assistant', 'driver']);
             $table->string('photo')->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('blood_type');

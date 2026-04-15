@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\AmbulanceEquipment;
 use App\Models\Mission;
 use App\Models\EquipmentCheck;
+use App\Models\Center;
 
 #[Fillable(['name','plate_number','photo','is_active','last_checked','notes'])]
 
@@ -33,5 +34,10 @@ class Ambulance extends Model
     public function equipmentChecks()
     {
         return $this->hasMany(EquipmentCheck::class);
+    }
+
+    public function center()
+    {
+        return $this->belongsTo(Center::class);
     }
 }
