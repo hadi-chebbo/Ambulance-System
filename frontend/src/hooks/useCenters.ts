@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCenters } from "../services/centerService";
+import { getCenters, createCenter as createCenterService } from "../services/centerService";
 import type { Center } from "../types/center";
 
 export function useCenters() {
@@ -32,6 +32,12 @@ export function useCenters() {
         fetchCenters();
     }, [currentPage]);
 
+    const createCenter = async (payload: Omit<Center, 'id'>) => {
+        const result = await createCenterService(payload);
+        setCenters((prev) => [result.data, ...prev]);
+        return result;
+    };
+
     return {
         centers,
         loading,
@@ -39,5 +45,6 @@ export function useCenters() {
         currentPage,
         lastPage,
         setCurrentPage,
+        createCenter,
     };
 }
