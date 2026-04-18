@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 
 class CenterController extends Controller
 {
-    public function index(): JsonRespoonse
+    public function index()
     {
         $centers = Center::latest()->paginate(10);
 
